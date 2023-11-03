@@ -1,0 +1,10 @@
+13:40:58 **** Incremental Build of configuration Debug for project F446-hello-world ****
+make -j11 all 
+arm-none-eabi-size   F446-hello-world.elf 
+   text	   data	    bss	    dec	    hex	filename
+   8508	     20	   1636	  10164	   27b4	F446-hello-world.elf
+Finished building: default.size.stdout
+ 
+
+13:40:58 Build Finished. 0 errors, 0 warnings. (took 217ms)
+
