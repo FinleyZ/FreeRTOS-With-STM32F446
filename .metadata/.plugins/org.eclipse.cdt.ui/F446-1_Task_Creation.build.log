@@ -1,10 +1,10 @@
-17:13:26 **** Incremental Build of configuration Debug for project F446-1_Task_Creation ****
+18:25:31 **** Incremental Build of configuration Debug for project F446-1_Task_Creation ****
 make -j11 all 
 arm-none-eabi-size   F446-1_Task_Creation.elf 
    text	   data	    bss	    dec	    hex	filename
-  11216	     28	   2876	  14120	   3728	F446-1_Task_Creation.elf
+  24900	    116	  20820	  45836	   b30c	F446-1_Task_Creation.elf
 Finished building: default.size.stdout
  
 
-17:13:26 Build Finished. 0 errors, 0 warnings. (took 237ms)
+18:25:31 Build Finished. 0 errors, 0 warnings. (took 183ms)
 

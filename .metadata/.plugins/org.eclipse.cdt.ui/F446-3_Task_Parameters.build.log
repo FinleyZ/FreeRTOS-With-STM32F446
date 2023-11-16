@@ -1,0 +1,10 @@
+18:25:12 **** Incremental Build of configuration Debug for project F446-3_Task_Parameters ****
+make -j11 all 
+arm-none-eabi-size   F446-3_Task_Parameters.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24660	    116	  20812	  45588	   b214	F446-3_Task_Parameters.elf
+Finished building: default.size.stdout
+ 
+
+18:25:13 Build Finished. 0 errors, 0 warnings. (took 183ms)
+

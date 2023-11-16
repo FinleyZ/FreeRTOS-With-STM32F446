@@ -17,58 +17,33 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <stdio.h>
 #include "main.h"
 #include "cmsis_os.h"
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
-char msg[] = "ZHF\n";
-
-int __io__putchar(int ch);
+//char msg[] = "h";
 
 /* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* USER CODE BEGIN PV */
+//osThreadId_t defaultTaskHandle;
+//const osThreadAttr_t defaultTask_attributes = {
+//  .name = "defaultTask",
+//  .stack_size = 128 * 4,
+//  .priority = (osPriority_t) osPriorityNormal,
+//};
 
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
-/* USER CODE BEGIN PFP */
+int __io_putchar(int ch);
+void vBlueLedTask(void *pvParameters);
+void vRedLedTask(void *pvParameters);
+void vGreenLedTask(void *pvParameters);
 
-/* USER CODE END PFP */
+typedef uint32_t TaskProfiler;
 
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
+TaskProfiler BlueTaskProfiler, RedTaskProfiler, GreenTaskProfiler;
 
 /**
   * @brief  The application entry point.
@@ -77,44 +52,54 @@ static void MX_USART2_UART_Init(void);
 
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
 
+  xTaskCreate(vBlueLedTask,"BlueLedTask",128,NULL,1,NULL);
+  xTaskCreate(vRedLedTask,"RedLedTask",128,NULL,1,NULL);
+  xTaskCreate(vGreenLedTask,"GreenLedTask",128,NULL,1,NULL);
+  vTaskStartScheduler();
+
   while (1)
   {
-	  HAL_UART_Transmit(&huart2,(uint8_t *)msg, 4,0xFFFF);
-	  HAL_Delay (1000);
-
+    printf("Hello From F446 !\n\r");
+    HAL_Delay (1000);
   }
 
 }
 
+void vGreenLedTask(void *pvParameters){
+  while(1){
+//    printf("vGreenLedTask running...\n\r");
+//    osDelay(2000);
+    GreenTaskProfiler++;
+  }
+}
 
-int __io__putchar(int ch)
+void vRedLedTask(void *pvParameters){
+  while(1){
+//    printf("vRedLedTask running...\n\r");
+//    osDelay(2000);
+    RedTaskProfiler++;
+  }
+}
+
+void vBlueLedTask(void *pvParameters){
+  while(1){
+//    printf("vBlueLedTask running...\n\r");
+//    osDelay(2000);
+    BlueTaskProfiler++;
+  }
+}
+
+int __io_putchar(int ch)
 {
-	HAL_UART_Transmit(&huart2,(uint8_t *)ch, 1,0xFFFF);
-	return 1;
+	HAL_UART_Transmit(&huart2,(uint8_t *)&ch, 1,0xFFFF);
+	return ch;
 }
 /**
   * @brief System Clock Configuration
